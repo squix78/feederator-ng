@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <groupId>ch.squix</groupId>
-  <artifactId>appengine-template</artifactId>
+  <artifactId>feederator-ng</artifactId>
 
   <properties>
     <appengine.app.version>1</appengine.app.version>
