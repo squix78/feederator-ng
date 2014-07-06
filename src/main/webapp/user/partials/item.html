@@ -1,0 +1,11 @@
+<div class="scrollable">
+	<div class="scrollable-content">
+		<div class="container-fluid section section-break">
+			<small>{{item.importedDate | date:'medium'}}</small>
+			<h3><a href="{{item.link}}" target="_blank">{{item.title}}</a></h3>
+			<div ng-bind-html="item.description">
+			</div>
+		</div>
+	</div>
+</div>
+
