@@ -100,6 +100,18 @@
       <artifactId>jackson-mapper-asl</artifactId>
       <version>1.9.12</version>
     </dependency>
+    
+    <!-- RSS -->
+    <dependency>
+		<groupId>rome</groupId>
+		<artifactId>rome</artifactId>
+		<version>1.0</version>
+	</dependency>
+	<dependency>
+		<groupId>xerces</groupId>
+		<artifactId>xercesImpl</artifactId>
+		<version>2.6.2</version>
+	</dependency>
 
     <!-- App Engine -->
     <dependency>
@@ -119,6 +131,11 @@
       <artifactId>slf4j-api</artifactId>
       <version>1.6.1</version>
     </dependency>
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-lang3</artifactId>
+		<version>3.3.2</version>
+	</dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>

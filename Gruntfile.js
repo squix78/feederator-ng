@@ -8,32 +8,38 @@ module.exports = function(grunt) {
             proxy: 'http://localhost:8080/',
             preferLocal: true,
             liveCSS: true,
-            liveImg: true
+            liveImg: true,
+            filter: [
+                     {type: 'exclude', pattern: 'components/*'}
+                   ],
         },
         gruntfile: {
           src: 'Gruntfile.js'
         },
         bower_concat: {
           all: {
-            dest: 'src/main/webapp/dist/lib.js',
+            dest: 'src/main/webapp/user/dist/lib.js',
             bowerOptions: {
               relative: false
-            }
+            },
+            exclude: [
+                      'font-awesome', 'overthrow'
+            ]
           }
         },
         concat: {   
             dist: {
                 src: [
-                    'src/main/webapp/js/*.js'  // This specific file
+                    'src/main/webapp/user/js/*.js'  // This specific file
                 ],
-                dest: 'src/main/webapp/dist/app.js',
+                dest: 'src/main/webapp/user/dist/app.js',
             }
         },
 
         uglify: {
             build: {
-                src: ['src/main/webapp/dist/app.js', 'src/main/webapp/dist/lib.js'],
-                dest: 'src/main/webapp/dist/app.min.js'
+                src: ['src/main/webapp/user/dist/app.js', 'src/main/webapp/user/dist/lib.js'],
+                dest: 'src/main/webapp/user/dist/app.min.js'
             }
         },
         less: {
@@ -45,19 +51,19 @@ module.exports = function(grunt) {
             },
             files: {
               // target.css file: source.less file
-              "src/main/webapp/dist/main.css": "src/main/webapp/css/main.less"
+              "src/main/webapp/user/dist/main.css": "src/main/webapp/user/css/main.less"
             }
           }
         },
         watch: {
             html: {
-              files: ['src/main/webapp/index.html', 'src/main/webapp/**/*.html'],
+              files: ['src/main/webapp/user/index.html', 'src/main/webapp/user/partials/*.html'],
               options: {
                 nospawn: true
               }
             },
             scripts: {
-                files: ['src/main/webapp/js/*.js'],
+                files: ['src/main/webapp/user/js/*.js'],
                 tasks: ['concat', 'uglify'],
                 options: {
                     spawn: false,
@@ -65,7 +71,7 @@ module.exports = function(grunt) {
             }, 
             styles: {
               tasks: ['less'],
-              files: ['src/main/webapp/css/*.less'],
+              files: ['src/main/webapp/user/css/*.less'],
               options: {
                 nospawn: true
               }

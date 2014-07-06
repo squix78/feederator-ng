@@ -7,7 +7,7 @@
 
     <context-param>
       <param-name>org.restlet.application</param-name>
-      <param-value>ch.squix.template.rest.RestApplication</param-value>
+      <param-value>ch.squix.feederator.rest.RestApplication</param-value>
    </context-param>    
 
 	<filter>
@@ -63,6 +63,28 @@
 	  <servlet-name>appstats</servlet-name>
 	  <url-pattern>/appstats/*</url-pattern>
 	</servlet-mapping>
+	
+	<security-constraint>
+        <web-resource-collection>
+            <web-resource-name>profile</web-resource-name>
+            <url-pattern>/user/*</url-pattern>
+            <url-pattern>/rest/user/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>admin</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/rest/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 	
 	<security-constraint>
 	  <web-resource-collection>

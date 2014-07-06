@@ -1,4 +1,4 @@
-package ch.squix.template.rest.ping;
+package ch.squix.feederator.rest.ping;
 
 import java.io.UnsupportedEncodingException;
 
