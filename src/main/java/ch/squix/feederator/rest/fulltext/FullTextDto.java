@@ -7,5 +7,6 @@ public class FullTextDto {
 
     private String originalUrl;
     private String fullText;
+    private String imageUrl;
 
 }
