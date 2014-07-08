@@ -17,6 +17,9 @@ angular
     .factory('Inbox', ['$resource', function($resource) {
       return $resource('/rest/user/inbox');
     }])
+    .factory('Fulltext', ['$resource', function($resource) {
+    	return $resource('/rest/user/fulltext/:url');
+    }])
 	.factory('Item', ['$resource', function($resource) {
 		return $resource('/rest/user/item/:itemId');
 	}]);
@@ -26,9 +29,12 @@ function InboxController($scope, $timeout, $location, Inbox) {
 	});
 	
 }
-function ItemController($scope, $timeout, $location, $routeParams, Item) {
+function ItemController($scope, $timeout, $location, $routeParams, Item, Fulltext) {
 	$scope.itemId = $routeParams.itemId;
 	$scope.item = Item.get({itemId: $scope.itemId}, function() {
+		$scope.article = Fulltext.get({url: $scope.item.link}, function() {
+			
+		});
 	});
 	
 }

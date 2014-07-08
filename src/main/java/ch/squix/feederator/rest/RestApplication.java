@@ -6,6 +6,7 @@ import org.restlet.routing.Router;
 
 import ch.squix.feederator.model.Feed;
 import ch.squix.feederator.model.FeedItem;
+import ch.squix.feederator.rest.fulltext.FullTextResource;
 import ch.squix.feederator.rest.items.InboxItemResource;
 import ch.squix.feederator.rest.items.ItemResource;
 import ch.squix.feederator.rest.parser.ParserResource;
@@ -34,6 +35,7 @@ public class RestApplication extends Application {
         router.attach("/user/testdata", TestDataResource.class);
         router.attach("/user/inbox", InboxItemResource.class);
         router.attach("/user/item/{itemId}", ItemResource.class);
+        router.attach("/user/fulltext/{url}", FullTextResource.class);
 
         return router;
     }

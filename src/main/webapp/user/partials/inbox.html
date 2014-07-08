@@ -1,10 +1,11 @@
 <div class="scrollable">
 	<div class="scrollable-content">
 		<div class="list-group">
-			<div class="list-group-item" ng-repeat="item in items">
+			<a class="list-group-item" ng-repeat="item in items" href="#/item/{{item.id}}">
+				<i class="fa fa-chevron-right pull-right"></i>
 				<small>{{item.feedName}} || {{item.importedDate | date:'medium'}}</small>
-				<div><a href="#/item/{{item.id}}">{{item.title}}</a></div>
-			</div>
+				<div>{{item.title}}</div>
+			</a>
 		</div>
 	</div>
 </div>
