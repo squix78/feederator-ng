@@ -30,19 +30,23 @@ angular
                     }
                 });
     }])
-//    .factory('Fulltext', ['$resource', function($resource) {
-//    	return $resource('/rest/user/fulltext/:url');
-//    }])
 	.factory('Item', ['$resource', function($resource) {
 		return $resource('/rest/user/item/:itemId');
 	}]);
 
-function InboxController($scope, $rootScope, $timeout, $location, Inbox) {
+function InboxController($scope, $rootScope, $timeout, $location, $anchorScroll, $timeout, Inbox) {
 	$rootScope.isDetail = false;
 	$rootScope.loading = true;
 	$scope.items = Inbox.query({}, function() {
 		$rootScope.loading = false;
+		$timeout(function(){
+			$anchorScroll();
+        });
+
 	});
+	$scope.showItem = function(itemId) {
+		$location.path("/item/" + itemId);
+	};
 	
 }
 function ItemController($scope, $rootScope, $timeout, $location, $routeParams, Item, Fulltext) {
@@ -54,6 +58,10 @@ function ItemController($scope, $rootScope, $timeout, $location, $routeParams, I
 			$rootScope.loading = false;
 		});
 	});
+	$rootScope.gotoInbox = function() {
+		$location.hash($scope.itemId);
+		$location.path("/inbox");
+	};
 	
 }
 
