@@ -1,6 +1,7 @@
 package ch.squix.feederator.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -27,6 +28,12 @@ public class Feed {
     private String appUserId;
 
     private String url;
+
+    private Date lastSuccess;
+
+    private Date lastFail;
+
+    private Date lastUpdate;
 
     @Serialize(zip = true)
     private List<String> uuids = new ArrayList<>();

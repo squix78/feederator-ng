@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,10 +59,16 @@ public class ParserResource extends ServerResource {
                     knownItemCount++;
                 }
             }
+        } else {
+            feed.setLastFail(new Date());
         }
         logger.info("Found " + items.size() + " new items. Discard " + knownItemCount
                 + " items as old.");
-        ofy().save().entities(items);
+        if (items.size() > 0) {
+            feed.setLastUpdate(new Date());
+            ofy().save().entities(items);
+        }
+        feed.setLastSuccess(new Date());
         ofy().save().entity(feed);
         return "OK";
     }

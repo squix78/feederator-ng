@@ -44,6 +44,13 @@ public class TestDataResource extends ServerResource {
         feed.setDescription("Lifehacker");
         feeds.add(feed);
 
+        feed = new Feed();
+        feed.setAppUserId(currentUser.getUserId());
+        feed.setUrl("http://www.heise.de/newsticker/heise-atom.xml");
+        feed.setName("Heise");
+        feed.setDescription("Heise");
+        feeds.add(feed);
+
         ofy().save().entities(feeds);
         return "OK";
     }

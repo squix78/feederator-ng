@@ -3,8 +3,8 @@
 		<div class="list-group">
 			<a id="{{item.id}}" class="list-group-item" ng-repeat="item in items" ng-click="showItem(item.id)">
 				<i class="fa fa-chevron-right pull-right"></i>
-				<small>{{item.feedName}} || {{item.importedDate | date:'medium'}}</small>
 				<div class="list-item-title">{{item.title}}</div>
+				<small>{{item.feedName}} || {{item.importedDate | date:'medium'}}</small>
 			</a>
 		</div>
 	</div>

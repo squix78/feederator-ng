@@ -4,7 +4,7 @@
 			<img src="{{article.imageUrl}}"/>
 			<small>{{item.importedDate | date:'medium'}}</small>
 			<h3><strong><a href="{{item.link}}" target="_blank">{{item.title}}</a></strong></h3>
-			<div class="article-body" ng-bind-html="article.content">
+			<div class="article-body" ng-bind-html="item.fulltext.content">
 			</div>
 		</div>
 	</div>
