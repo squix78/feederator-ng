@@ -1,6 +1,6 @@
 <div class="scrollable">
-	<div class="scrollable-content">
-		<div class="list-group">
+	<div class="scrollable-content" id="scrollContainer">
+		<div class="list-group" pull-to-refresh="refreshItems()">
 			<a id="{{item.id}}" class="list-group-item" ng-repeat="item in items" ng-click="showItem(item.id)">
 				<i class="fa fa-chevron-right pull-right"></i>
 				<div class="list-item-title">{{item.title}}</div>
@@ -8,5 +8,15 @@
 			</a>
 		</div>
 	</div>
+</div>
+<div overlay="myOverlay">
+  <h4 class="overlay-title">My Overlay</h4>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem, ex eaque possimus ipsa ab quasi quos corporis consequatur laudantium? Ab assumenda delectus quo velit voluptates doloribus. Earum odit facilis qui.
+  </p>
+  <p toggle="off" bubble target="myOverlay">
+    <span class="btn btn-primary">Ok</span>
+    <span class="btn btn-default">Cancel</span>
+  </p>  
 </div>
 

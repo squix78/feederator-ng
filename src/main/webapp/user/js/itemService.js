@@ -2,11 +2,34 @@ angular.module('itemService', ['ngResource', 'fulltext'])
 .factory('Item', ['$resource', function($resource) {
 	return $resource('/rest/user/item/:itemId');
 }])
-.factory('ItemService', ['Item', 'Fulltext', function(Item, Fulltext) {
+.factory('ItemService', ['$anchorScroll', '$location', 'Item', 'Fulltext', function($anchorScroll, $location, Item, Fulltext) {
 	var loader = {};
 	var items = [];
 	var itemMap = {};
+	var topItemId = null;
 	var service = {
+		rememberTopItem: function(scrollContainerName) {
+			var scrollPosition = document.getElementById(scrollContainerName).scrollTop;
+			service.topItemId = null;
+			var minDistance = 999;
+			angular.forEach(items, function(value, key) {
+				var element = document.getElementById(value.id);
+				if (angular.isDefined(element)) {
+					var distance = Math.abs(element.offsetTop - scrollPosition);
+					if (distance < minDistance) {
+						service.topItemId = value.id;
+						minDistance = distance;
+					}
+				}
+
+			});
+		},
+		restoreTopItem: function() {
+			if (angular.isDefined(service.topItemId)) {
+				$location.hash(service.topItemId);
+				$anchorScroll();
+			}
+		},
 		setLoader: function(newLoader) {
 			loader = newLoader;
 		},

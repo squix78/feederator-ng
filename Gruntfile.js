@@ -29,10 +29,11 @@ module.exports = function(grunt) {
         },
         concat: {   
             dist: {
+
                 src: [
                     'src/main/webapp/user/js/*.js'  // This specific file
                 ],
-                dest: 'src/main/webapp/user/dist/app.js',
+                dest: 'src/main/webapp/user/dist/app.js'
             }
         },
 
