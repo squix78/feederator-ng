@@ -7,15 +7,18 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
+import ch.squix.feederator.model.Article;
 import ch.squix.feederator.model.Feed;
 import ch.squix.feederator.model.FeedItem;
 import ch.squix.feederator.util.FeedUtil;
@@ -62,15 +65,48 @@ public class ParserResource extends ServerResource {
         } else {
             feed.setLastFail(new Date());
         }
+        enrichItems(items);
         logger.info("Found " + items.size() + " new items. Discard " + knownItemCount
                 + " items as old.");
         if (items.size() > 0) {
             feed.setLastUpdate(new Date());
-            ofy().save().entities(items);
+            ofy().save().entities(items).now();
         }
         feed.setLastSuccess(new Date());
         ofy().save().entity(feed);
         return "OK";
+    }
+
+    private void enrichItems(List<FeedItem> items) {
+        for (FeedItem item : items) {
+            Article article = getArticle(item.getLink());
+            item.setArticle(article);
+        }
+    }
+
+    private Article getArticle(String link) {
+        URLFetchService fetchService = URLFetchServiceFactory.getURLFetchService();
+
+        try {
+            String urlEncodedLink = URLEncoder.encode(link, "utf-8");
+            URL url = new URL("http://fulltext-squix.rhcloud.com/full-text-rss/extract.php?url="
+                    + urlEncodedLink);
+            HTTPResponse response = fetchService.fetch(new HTTPRequest(url, HTTPMethod.GET,
+                    FetchOptions.Builder.disallowTruncate()
+                            .followRedirects()
+                            .doNotValidateCertificate()
+                            .setDeadline(60D)));
+            byte[] content = response.getContent();
+            // logger.info("Content" + new String(content, "utf-8"));
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(content, Article.class);
+        } catch (MalformedURLException e) {
+            logger.log(Level.SEVERE, "Could not read fulltext", e);
+            return null;
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Could not read fulltext", e);
+            return null;
+        }
     }
 
     public SyndFeed readFeed(String sourceURL) {
@@ -95,7 +131,7 @@ public class ParserResource extends ServerResource {
                             .doNotValidateCertificate()
                             .setDeadline(60D)));
             content = response.getContent();
-            logger.info("Content" + new String(content, "utf-8"));
+            // logger.info("Content" + new String(content, "utf-8"));
             ByteArrayInputStream inputStream = new ByteArrayInputStream(content);
             // HttpURLConnection connection = (HttpURLConnection)
             // url.openConnection();

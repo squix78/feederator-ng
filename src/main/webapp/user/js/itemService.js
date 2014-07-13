@@ -1,8 +1,8 @@
-angular.module('itemService', ['ngResource', 'fulltext'])
+angular.module('itemService', ['ngResource', 'angularLocalStorage', 'fulltext'])
 .factory('Item', ['$resource', function($resource) {
 	return $resource('/rest/user/item/:itemId');
 }])
-.factory('ItemService', ['$anchorScroll', '$location', 'Item', 'Fulltext', function($anchorScroll, $location, Item, Fulltext) {
+.factory('ItemService', ['$anchorScroll', '$location', '$q', 'storage', 'Item', 'Fulltext', function($anchorScroll, $location, $q, storage, Item, Fulltext) {
 	var loader = {};
 	var items = [];
 	var itemMap = {};
@@ -35,14 +35,29 @@ angular.module('itemService', ['ngResource', 'fulltext'])
 		},
 		loadItems: function() {
 			if (items.length === 0) {
+				var storageItems = storage.get("items");
+				if (storageItems !== null) {
+					var defer = $q.defer();
+					defer.resolve(storageItems);
+					storageItems.$promise = defer.promise; 
+					items = storageItems;
+					service.fillItemMap();
+					return items;
+				}
 				items = loader.getItems();
 				items.$promise.then(function(loadedItems) {
 					angular.forEach(loadedItems, function(value, key) {
 						itemMap[value.id] = value;
 					});
+					storage.set("items", items);
 				});
 			}
 			return items;
+		},
+		fillItemMap: function() {
+			angular.forEach(items, function(value, key) {
+				itemMap[value.id] = value;
+			});
 		},
 		getItems: function() {
 			return items;
@@ -60,11 +75,15 @@ angular.module('itemService', ['ngResource', 'fulltext'])
 		},
 		loadFullText: function(itemId) {
 			var item = itemMap[itemId];
-			if (angular.isDefined(item) && !angular.isDefined(item.fulltext)) {
+			if (angular.isDefined(item) && (!angular.isDefined(item.article) || item.article === null)) {
 				item.fulltext = Fulltext.getFullText({url: item.link}, function(fulltext) {
 					console.log("Received fulltext");
 				});				
 			}
+		},
+		clearItems: function() {
+			items = [];
+			storage.clearAll();
 		}
 
 	};

@@ -1,10 +1,17 @@
-<div class="scrollable">
-	<div class="scrollable-content">
-		<div class="container-fluid section section-break item-detail">
-			<img src="{{article.imageUrl}}"/>
-			<small>{{item.importedDate | date:'medium'}}</small>
-			<h3><strong><a href="{{item.link}}" target="_blank">{{item.title}}</a></strong></h3>
-			<div class="article-body" ng-bind-html="item.fulltext.content">
+
+<div id="itemCarousel" class="carousel">
+      <div class="carousel-inner" ng-swipe-left="carouselPrev('itemCarousel')"
+      ng-swipe-right="carouselNext('itemCarousel')">
+        <div carousel-item ng-repeat="item in items" class="item" id="{{item.id}}" ng-class="{active: item.id == itemId}">
+			<div class="scrollable">
+				<div class="scrollable-content">
+					<div class="container-fluid section section-break item-detail">
+						<small>{{item.feedName}} || {{item.importedDate | date:'medium'}} || {{item.article.language}}</small>
+						<h3><strong><a href="{{item.link}}" target="_blank">{{item.title}}</a></strong></h3>
+						<div class="article-body" ng-bind-html="item.article.content">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

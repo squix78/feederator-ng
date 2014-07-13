@@ -10,8 +10,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import ch.squix.feederator.model.Article;
 import ch.squix.feederator.model.Feed;
 import ch.squix.feederator.model.FeedItem;
+import ch.squix.feederator.rest.items.ArticleDto;
 import ch.squix.feederator.rest.items.FeedItemDto;
 
 import com.google.common.base.Strings;
@@ -79,11 +81,28 @@ public class FeedItemConverter {
         dto.setUpdatedDate(item.getUpdatedDate());
         dto.setUri(item.getUri());
 
+        Article article = item.getArticle();
+        if (article != null) {
+            dto.setArticle(convertToDto(article));
+        }
         // Not very efficient. Maybe Objectify caches it (should do so)
         Feed parentFeed = ofy().load().type(Feed.class).id(item.getFeedId()).now();
         if (parentFeed != null) {
             dto.setFeedName(parentFeed.getName());
         }
+        return dto;
+    }
+
+    public static ArticleDto convertToDto(Article article) {
+        ArticleDto dto = new ArticleDto();
+        dto.setAuthor(article.getAuthor());
+        dto.setContent(article.getContent());
+        dto.setDate(article.getDate());
+        dto.setEffectiveUrl(article.getEffectiveUrl());
+        dto.setExcerpt(article.getExcerpt());
+        dto.setLanguage(article.getLanguage());
+        dto.setTitle(article.getTitle());
+        dto.setUrl(article.getUrl());
         return dto;
     }
 

@@ -36,4 +36,6 @@ public class FeedItemDto {
     // Derived
     private String feedName;
 
+    private ArticleDto article;
+
 }

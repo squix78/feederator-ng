@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="/components/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css">
 	<link rel="stylesheet" href="/components/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css">
     <link rel="stylesheet" href="/components/angular-pull-to-refresh/dist/angular-pull-to-refresh.min.css">
+    <link rel="stylesheet" href="/components/angular-carousel/dist/angular-carousel.min.css">
+
 
     <link rel="stylesheet" type="text/css" href="dist/main.css">
 
@@ -68,7 +70,7 @@
 	
 	  <div class="navbar navbar-app navbar-absolute-bottom">
 	    <div class="btn-group justified">
-	      <a href="#/inbox" class="btn btn-navbar btn-icon-only"><i class="fa fa-home fa-navbar"></i></a>
+	      <div ng-click="refreshItems()" class="btn btn-navbar btn-icon-only"><i class="fa fa-refresh fa-navbar"></i></div>
 	      <a href="#/route2" class="btn btn-navbar btn-icon-only"><i class="fa fa-list fa-navbar"></i></a>
 	    </div>
 	  </div>

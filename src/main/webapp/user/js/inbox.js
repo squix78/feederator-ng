@@ -3,32 +3,38 @@ angular.module('inbox', ['ngResource', 'itemService', 'mgcrea.pullToRefresh'])
     return $resource('/rest/user/inbox');
 }]);
 
-function InboxController($scope, $rootScope, $timeout, $location, $timeout, Inbox, ItemService) {
-	var loader = {
-		getItems: function() {
-			return Inbox.query({});
-		}	
-	};
-	ItemService.setLoader(loader);
+function InboxController($scope, $rootScope, $timeout, $location, $timeout, items, ItemService) {
+
 	$rootScope.isDetail = false;
 	$rootScope.loading = true;
-	ItemService.loadItems();
-	$scope.items = ItemService.getItems();
+	$scope.items = items;
+	//ItemService.loadItems();
+	//$scope.items = ItemService.getItems();
 	
-	$scope.items.$promise.then(function() {
-		$timeout(function() {
+	$rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
 			ItemService.restoreTopItem();
 		});
-	});
+
 	
 	$scope.showItem = function(itemId) {
 		ItemService.rememberTopItem('scrollContainer');
 		$location.path("/item/" + itemId);
 	};
 	
-	$scope.refreshItems = function() {
-		console.log("Pulled to refresh");
-		$rootScope.toggle('myOverlay', 'on');
-	}
-	
-}
+	$rootScope.refreshItems = function() {
+		ItemService.clearItems();
+		$scope.items = ItemService.loadItems();
+	};	
+};
+
+InboxController.resolve = {
+    items: function(ItemService, Inbox) {
+    	var loader = {
+    			getItems: function() {
+    				return Inbox.query({});
+    			}	
+    		};
+    	ItemService.setLoader(loader);
+        return ItemService.loadItems().$promise;
+    }
+};

@@ -40,6 +40,8 @@ public class FeedItem {
     private String descriptionType;
     private String author;
 
+    private Article article;
+
     @Serialize(zip = true)
     private List<String> links = new ArrayList<>();
 
