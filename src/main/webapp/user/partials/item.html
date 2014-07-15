@@ -1,14 +1,13 @@
 
 <div id="itemCarousel" class="carousel">
-      <div class="carousel-inner" ng-swipe-left="carouselPrev('itemCarousel')"
-      ng-swipe-right="carouselNext('itemCarousel')">
+      <div class="carousel-inner">
         <div item-content carousel-item ng-repeat="item in items" class="item" id="{{item.id}}" ng-class="{active: item.id == itemId}">
 			<div class="scrollable">
 				<div class="scrollable-content">
 					<div class="container-fluid section section-break item-detail">
-						<small>{{item.feedName}} || {{item.importedDate | date:'medium'}} || {{item.article.language}}</small>
+						<small>{{$index + 1}}/{{items.length}} {{item.feedName}} || {{item.importedDate | date:'medium'}} || {{item.article.language}}</small>
 						<h3><strong><a href="{{item.link}}" target="_blank">{{item.title}}</a></strong></h3>
-						<div class="article-body" ng-bind-html="item.article.contentTmp">
+						<div class="article-body" ng-bind-html="getContent(item)">
 						</div>
 					</div>
 				</div>

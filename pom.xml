@@ -276,10 +276,10 @@
               osfamily="unix" failonerror="true">
                   <arg line="npm install"/>
               </exec>
-               -->
               <exec executable="npm" dir="${project.basedir}" failonerror="true">
-			    <arg value="install" />
-			  </exec>
+			           <arg value="install" />
+			        </exec>
+               -->
               <echo>
       <!-- Bower  -->
               </echo>

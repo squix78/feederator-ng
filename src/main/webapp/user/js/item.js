@@ -43,10 +43,11 @@ angular.module('item', ['ngResource', 'itemService'])
 
 	        end: function(coords, e) {
 	          if (endAction == "prev") {
-	            $rootScope.carouselPrev(carouselId);
-	          } else if (endAction == "next") {
 	            $rootScope.carouselNext(carouselId);
+	          } else if (endAction == "next") {
+	            $rootScope.carouselPrev(carouselId);
 	          }
+	          scope.$apply();
 	          translateAndRotate(0, 0, 0, 0);
 	          e.stopPropagation();
 	        },
@@ -75,6 +76,14 @@ function ItemController($scope, $rootScope, $timeout, $location, $routeParams, I
 	ItemService.loadItems();
 	$scope.items = ItemService.getItems();
 	
+	$scope.getContent = function(item) {
+	  var element = angular.element(document.getElementById(item.id));
+	  if (element.hasClass('active')) {
+	    return item.article.content;
+	  } else {
+	    return "Empty content";
+	  }
+	};
 	
 	//$scope.item = ItemService.getItem($scope.itemId);
 	$rootScope.gotoInbox = function() {
