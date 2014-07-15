@@ -1,5 +1,15 @@
 angular.module('item', ['ngResource', 'itemService'])
-
+.directive('itemContent', function () {
+	  return function(scope, elm, attrs) {
+		  scope.$watch(function() { 
+			  return (' ' + elm[0].className + ' ').indexOf('active') > -1;
+		  }, function(val) {
+			  if (val) {
+				  console.log(elm[0].id);
+			  }
+		  });
+	  }
+	})
 .directive( "carouselItem", function($rootScope, $swipe){
 	  return function(scope, element, attrs){
 	      var startX = null;
@@ -64,7 +74,7 @@ function ItemController($scope, $rootScope, $timeout, $location, $routeParams, I
 	
 	ItemService.loadItems();
 	$scope.items = ItemService.getItems();
-
+	
 	
 	//$scope.item = ItemService.getItem($scope.itemId);
 	$rootScope.gotoInbox = function() {
