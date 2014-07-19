@@ -9,9 +9,7 @@ module.exports = function(grunt) {
             preferLocal: true,
             liveCSS: true,
             liveImg: true,
-            filter: [
-                     {type: 'exclude', pattern: 'components/*'}
-                   ],
+
         },
         gruntfile: {
           src: 'Gruntfile.js'

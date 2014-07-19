@@ -1,6 +1,6 @@
 angular
     .module('Feederator', ['ngResource', 'ngTouch', 'ngRoute', 'ngSanitize', 
-                           'mobile-angular-ui', 'angular-carousel', 'inbox', 'fulltext', 'item'])
+                           'mobile-angular-ui', 'angular-carousel', 'inbox', 'main', 'fulltext', 'item'])
     .config(function($routeProvider) {
       $routeProvider.when('/inbox', {
     	  controller : InboxController,

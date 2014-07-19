@@ -30,6 +30,8 @@ function InboxController($scope, $rootScope, $timeout, $location, $timeout, item
 InboxController.resolve = {
     items: function(ItemService, Inbox) {
     	var loader = {
+    			listTitle: 'Inbox',
+    			lastUpdate: null,
     			getItems: function() {
     				return Inbox.query({});
     			}	

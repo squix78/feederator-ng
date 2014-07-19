@@ -2,7 +2,7 @@ angular.module('itemService', ['ngResource', 'angularLocalStorage', 'fulltext'])
 .factory('Item', ['$resource', function($resource) {
 	return $resource('/rest/user/item/:itemId');
 }])
-.factory('ItemService', ['$anchorScroll', '$location', '$q', 'storage', 'Item', 'Fulltext', function($anchorScroll, $location, $q, storage, Item, Fulltext) {
+.factory('ItemService', ['$rootScope', '$anchorScroll', '$location', '$q', 'storage', 'Item', 'Fulltext', function($rootScope, $anchorScroll, $location, $q, storage, Item, Fulltext) {
 	var loader = {};
 	var items = [];
 	var itemMap = {};
@@ -32,6 +32,8 @@ angular.module('itemService', ['ngResource', 'angularLocalStorage', 'fulltext'])
 		},
 		setLoader: function(newLoader) {
 			loader = newLoader;
+			$rootScope.listTitle = loader.listTitle;
+			$rootScope.lastUpdated = loader.lastUpdated;
 		},
 		loadItems: function() {
 			if (items.length === 0) {
@@ -50,6 +52,7 @@ angular.module('itemService', ['ngResource', 'angularLocalStorage', 'fulltext'])
 						itemMap[value.id] = value;
 					});
 					storage.set("items", items);
+					loader.lastUpdated = new Date();
 				});
 			}
 			return items;
