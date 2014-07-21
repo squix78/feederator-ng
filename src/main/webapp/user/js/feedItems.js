@@ -1,9 +1,9 @@
-angular.module('inbox', ['ngResource', 'itemService', 'mgcrea.pullToRefresh'])
-.factory('Inbox', ['$resource', function($resource) {
-    return $resource('/rest/user/inbox');
+angular.module('feedItems', ['ngResource', 'itemService', 'mgcrea.pullToRefresh'])
+.factory('FeedItems', ['$resource', function($resource) {
+    return $resource('/rest/user/feeds/:feedId');
 }]);
 
-function InboxController($scope, $rootScope, $timeout, $location, $timeout, items, ItemService) {
+function FeedItemsController($scope, $rootScope, $timeout, $location, $timeout, items, ItemService) {
 
 	$rootScope.isDetail = false;
 	$rootScope.loading = true;
@@ -27,14 +27,15 @@ function InboxController($scope, $rootScope, $timeout, $location, $timeout, item
 	};	
 };
 
-InboxController.resolve = {
-    items: function(ItemService, Inbox) {
+FeedItemsController.resolve = {
+    items: function($route, ItemService, FeedItems) {
+    	var feedId = $route.current.params.feedId;
     	var loader = {
-    			listTitle: 'Inbox',
-    			id: 'Inbox',
+    			listTitle: 'Feed',
+    			id: feedId,
     			lastUpdate: null,
     			getItems: function() {
-    				return Inbox.query({});
+    				return FeedItems.query({feedId: feedId});
     			}	
     		};
     	ItemService.setLoader(loader);

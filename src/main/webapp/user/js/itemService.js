@@ -31,7 +31,12 @@ angular.module('itemService', ['ngResource', 'angularLocalStorage', 'fulltext'])
 			}
 		},
 		setLoader: function(newLoader) {
+			var lastLoaderId = storage.get("lastLoaderId");
+			if (lastLoaderId != null && newLoader.id !== lastLoaderId) {
+				service.clearItems();
+			}
 			loader = newLoader;
+			storage.set("lastLoaderId", loader.id);
 			$rootScope.listTitle = loader.listTitle;
 			$rootScope.lastUpdated = loader.lastUpdated;
 		},
