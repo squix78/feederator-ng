@@ -1,6 +1,6 @@
 angular.module('feedItems', ['ngResource', 'itemService', 'mgcrea.pullToRefresh'])
 .factory('FeedItems', ['$resource', function($resource) {
-    return $resource('/rest/user/feeds/:feedId');
+    return $resource('/rest/user/feeds/:feedId/items');
 }]);
 
 function FeedItemsController($scope, $rootScope, $timeout, $location, $timeout, items, ItemService) {

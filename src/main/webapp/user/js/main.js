@@ -1,7 +1,4 @@
-angular.module('main', ['ngResource', 'angularLocalStorage', 'itemService'])
-.factory('Feeds', ['$resource', function($resource) {
-    return $resource('/rest/user/feeds');
-}]);
+angular.module('main', ['ngResource', 'angularLocalStorage', 'itemService', 'feed']);
 
 function MainController($scope, $rootScope, $timeout, $location, $routeParams, storage, Feeds) {
 //	var lastRoute = storage.get("lastRoute");

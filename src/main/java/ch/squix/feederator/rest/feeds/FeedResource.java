@@ -3,7 +3,6 @@ package ch.squix.feederator.rest.feeds;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.restlet.data.Status;
@@ -20,30 +19,36 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.objectify.Key;
 
 
-public class FeedsResource extends ServerResource {
+public class FeedResource extends ServerResource {
 
 
     private static final Logger logger = Logger.getLogger(InboxItemResource.class.getName());
 
     @Get(value = "json")
-    public List<FeedDto> execute() throws UnsupportedEncodingException {
+    public FeedDto execute() throws UnsupportedEncodingException {
+        String feedIdParam = (String) this.getRequestAttributes().get("feedId");
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) {
             setStatus(Status.CLIENT_ERROR_UNAUTHORIZED);
             return null;
         }
-        List<Feed> feeds = ofy().load()
-                .type(Feed.class)
-                .filter("appUserId", user.getUserId())
-                .list();
-        List<FeedDto> dtos = FeedConverter.convertToDtos(feeds);
-        return dtos;
+        Feed feed = ofy().load().type(Feed.class).id(Long.valueOf(feedIdParam)).now();
+        if (feed == null) {
+            setStatus(Status.CLIENT_ERROR_NOT_FOUND);
+            return null;
+        }
+        if (!user.getUserId().equals(feed.getAppUserId())) {
+            setStatus(Status.CLIENT_ERROR_FORBIDDEN);
+            return null;
+        }
+        FeedDto dto = FeedConverter.convertToDto(feed);
+        return dto;
 
     }
 
     @Post(value = "json")
-    public FeedDto create(FeedDto dto) {
+    public FeedDto update(FeedDto dto) {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) {
@@ -51,7 +56,17 @@ public class FeedsResource extends ServerResource {
             return null;
         }
         Feed feed = new Feed();
-
+        if (dto.getId() != null) {
+            feed = ofy().load().type(Feed.class).id(Long.valueOf(dto.getId())).now();
+            if (feed == null) {
+                setStatus(Status.CLIENT_ERROR_NOT_FOUND);
+                return null;
+            }
+            if (!feed.getAppUserId().equals(user.getUserId())) {
+                setStatus(Status.CLIENT_ERROR_FORBIDDEN);
+                return null;
+            }
+        }
         FeedConverter.convertFromDto(feed, dto);
         Key<Feed> feedKey = ofy().save().entity(feed).now();
         dto.setId(feedKey.getId());
