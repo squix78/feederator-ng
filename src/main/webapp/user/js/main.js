@@ -1,13 +1,13 @@
 angular.module('main', ['ngResource', 'angularLocalStorage', 'itemService', 'feed']);
 
 function MainController($scope, $rootScope, $timeout, $location, $routeParams, storage, Feeds) {
-//	var lastRoute = storage.get("lastRoute");
-//	if (lastRoute !== null && angular.isDefined(lastRoute)) {
-//		$location.path(lastRoute);
-//	}
+	var lastRoute = storage.get("lastRoute");
+	if (lastRoute !== null && angular.isDefined(lastRoute)) {
+		$location.path(lastRoute);
+	}
 	
 	$scope.$on('$locationChangeStart', function(event, next, current) { 
-		storage.set("lastRoute", next);
+		storage.set("lastRoute", $location.path());
 	});
 	$scope.feeds = Feeds.query({}, function() {
 		

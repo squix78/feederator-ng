@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,6 +18,8 @@ import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import ch.squix.feederator.model.Article;
 import ch.squix.feederator.model.Feed;
@@ -34,6 +37,15 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+
+import de.l3s.boilerpipe.BoilerpipeExtractor;
+import de.l3s.boilerpipe.BoilerpipeProcessingException;
+import de.l3s.boilerpipe.document.Image;
+import de.l3s.boilerpipe.document.TextDocument;
+import de.l3s.boilerpipe.extractors.CommonExtractors;
+import de.l3s.boilerpipe.sax.BoilerpipeSAXInput;
+import de.l3s.boilerpipe.sax.HTMLDocument;
+import de.l3s.boilerpipe.sax.ImageExtractor;
 
 
 public class ParserResource extends ServerResource {
@@ -81,6 +93,46 @@ public class ParserResource extends ServerResource {
         for (FeedItem item : items) {
             Article article = getArticle(item.getLink());
             item.setArticle(article);
+            if (article != null) {
+                item.setTeaserImageSource(getImageUrl(article.getContent()));
+            }
+        }
+    }
+
+    private String getImageUrl(String content) {
+        URL url;
+        try {
+            final HTMLDocument htmlDoc = new HTMLDocument(content);
+
+            final TextDocument doc = new BoilerpipeSAXInput(htmlDoc.toInputSource()).getTextDocument();
+            final BoilerpipeExtractor extractor = CommonExtractors.ARTICLE_EXTRACTOR;
+            extractor.process(doc);
+
+            final InputSource is = htmlDoc.toInputSource();
+
+
+            // choose from a set of useful BoilerpipeExtractors...
+
+            final ImageExtractor ie = ImageExtractor.INSTANCE;
+
+            List<Image> imgUrls = ie.process(doc, content);
+
+            // automatically sorts them by decreasing area, i.e. most probable
+            // true positives come first
+            Collections.sort(imgUrls);
+
+            for (Image img : imgUrls) {
+                if (img.getArea() > 1000) {
+                    return img.getSrc();
+                }
+            }
+            return null;
+        } catch (BoilerpipeProcessingException e) {
+            logger.log(Level.WARNING, "Failed to get image resource", e);
+            return null;
+        } catch (SAXException e) {
+            logger.log(Level.WARNING, "Failed to get image resource", e);
+            return null;
         }
     }
 

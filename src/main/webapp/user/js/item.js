@@ -1,5 +1,5 @@
-angular.module('item', ['ngResource', 'itemService'])
-.run(["$rootScope", function($rootScope) {
+angular.module('item', ['ngResource', 'angularLocalStorage', 'itemService'])
+.run(["$rootScope", "storage", function($rootScope, storage) {
     
     $rootScope.itemCarouselPrev = function(id) {
       $rootScope.$emit("item.carousel.prev", id);
@@ -59,6 +59,8 @@ angular.module('item', ['ngResource', 'itemService'])
         angular.element(items[leftNeighbour]).addClass("left-active");
         angular.element(items[rightNeighbour]).addClass("right-active");
 
+        var itemId = angular.element(items[newIdx]).attr("id")
+        storage.set("lastRoute", "/item/" + itemId);
 
         items = null;
         idx = null;

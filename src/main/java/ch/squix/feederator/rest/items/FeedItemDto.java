@@ -33,6 +33,8 @@ public class FeedItemDto {
     private String descriptionType;
     private String author;
 
+    private String teaserImageSource;
+
     // Derived
     private String feedName;
 

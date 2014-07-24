@@ -80,6 +80,7 @@ public class FeedItemConverter {
         dto.setTitle(item.getTitle());
         dto.setUpdatedDate(item.getUpdatedDate());
         dto.setUri(item.getUri());
+        dto.setTeaserImageSource(item.getTeaserImageSource());
 
         Article article = item.getArticle();
         if (article != null) {

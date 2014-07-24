@@ -42,6 +42,8 @@ public class FeedItem {
 
     private Article article;
 
+    private String teaserImageSource;
+
     @Serialize(zip = true)
     private List<String> links = new ArrayList<>();
 

@@ -100,6 +100,18 @@
       <servlet-name>RestletServlet</servlet-name>
       <url-pattern>/rest/*</url-pattern>
    </servlet-mapping>
+   
+   <servlet>
+      <servlet-name>TeaserImageServlet</servlet-name>
+      <servlet-class>
+         ch.squix.feederator.servlet.TeaserImageServlet
+      </servlet-class>
+   </servlet>
+   
+   <servlet-mapping>
+      <servlet-name>TeaserImageServlet</servlet-name>
+      <url-pattern>/user/teaserImage</url-pattern>
+   </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
