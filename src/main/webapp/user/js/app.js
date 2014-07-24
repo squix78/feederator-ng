@@ -7,7 +7,7 @@ angular
     	  templateUrl : 'partials/inbox.html',
     	  resolve: InboxController.resolve
       })
-      .when('/feed/:feedId', {
+      .when('/feeds/:feedId/items', {
     	  controller : FeedItemsController,
     	  templateUrl : 'partials/inbox.html',
     	  resolve: FeedItemsController.resolve
@@ -15,6 +15,14 @@ angular
       .when('/item/:itemId', {
     	  controller : 'ItemController',
     	  templateUrl : 'partials/item.html'
+      })
+      .when('/feeds/:feedId', {
+    	  controller : 'FeedController',
+    	  templateUrl : 'partials/feed.html'
+      })
+      .when('/feeds', {
+    	  controller : 'NewFeedController',
+    	  templateUrl : 'partials/feed.html'
       })
       .otherwise({
         controller : 'InboxController',

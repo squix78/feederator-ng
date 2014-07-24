@@ -3,11 +3,12 @@ angular.module('feedItems', ['ngResource', 'itemService', 'mgcrea.pullToRefresh'
     return $resource('/rest/user/feeds/:feedId/items');
 }]);
 
-function FeedItemsController($scope, $rootScope, $timeout, $location, $timeout, items, ItemService) {
+function FeedItemsController($scope, $rootScope, $routeParams, $timeout, $location, $timeout, items, ItemService) {
 
 	$rootScope.isDetail = false;
 	$rootScope.loading = true;
 	$scope.items = items;
+	$rootScope.feedId = $routeParams.feedId;
 	//ItemService.loadItems();
 	//$scope.items = ItemService.getItems();
 	

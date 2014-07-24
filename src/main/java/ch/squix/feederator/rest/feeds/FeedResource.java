@@ -16,7 +16,6 @@ import ch.squix.feederator.rest.items.InboxItemResource;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.googlecode.objectify.Key;
 
 
 public class FeedResource extends ServerResource {
@@ -66,11 +65,11 @@ public class FeedResource extends ServerResource {
                 setStatus(Status.CLIENT_ERROR_FORBIDDEN);
                 return null;
             }
+            FeedConverter.convertFromDto(feed, dto);
+            ofy().save().entity(feed).now();
+            return dto;
         }
-        FeedConverter.convertFromDto(feed, dto);
-        Key<Feed> feedKey = ofy().save().entity(feed).now();
-        dto.setId(feedKey.getId());
-        return dto;
+        return null;
 
     }
 

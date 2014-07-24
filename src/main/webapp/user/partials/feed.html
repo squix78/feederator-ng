@@ -1,0 +1,27 @@
+<div class="scrollable">
+	<div class="scrollable-content" id="scrollContainer">
+		<div class="panel">
+			<div class="panel-heading">
+			  <h2 class="panel-title">
+			    Feed
+			  </h2>
+			</div>
+			<div class="panel-body">
+				<input bs-form-control type="text" ng-model="feed.name" label="Feed name"
+				 label-class="col-xs-3 col-sm-2 col-lg-1" class="col-xs-9 col-sm-10 col-lg-11" 
+				 placeholder="Displayed name of the feed"/>
+				<input bs-form-control type="text" ng-model="feed.url" label="URL"
+				 label-class="col-xs-3 col-sm-2 col-lg-1" class="col-xs-9 col-sm-10 col-lg-11" 
+				 placeholder="URL of the feed"/>
+				<input bs-form-control type="text" ng-model="feed.description" label="Description"
+				 label-class="col-xs-3 col-sm-2 col-lg-1" class="col-xs-9 col-sm-10 col-lg-11" 
+				 placeholder="Description of the feed"/>
+				 <button class="btn btn-primary" ng-click="save()">
+		          Save
+		         </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+

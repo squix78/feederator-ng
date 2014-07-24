@@ -53,6 +53,7 @@ public class FeedsResource extends ServerResource {
         Feed feed = new Feed();
 
         FeedConverter.convertFromDto(feed, dto);
+        feed.setAppUserId(user.getUserId());
         Key<Feed> feedKey = ofy().save().entity(feed).now();
         dto.setId(feedKey.getId());
         return dto;

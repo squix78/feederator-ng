@@ -37,8 +37,8 @@ public class RestApplication extends Application {
         router.attach("/admin/updateFeeds", UpdateFeedsResource.class);
         router.attach("/user/testdata", TestDataResource.class);
         router.attach("/user/inbox", InboxItemResource.class);
-        router.attach("/user/feeds", FeedsResource.class);
         router.attach("/user/feeds/{feedId}", FeedResource.class);
+        router.attach("/user/feeds", FeedsResource.class);
         router.attach("/user/feeds/{feedId}/items", FeedItemResource.class);
         router.attach("/user/item/{itemId}", ItemResource.class);
         router.attach("/user/fulltext/{url}", FullTextResource.class);
