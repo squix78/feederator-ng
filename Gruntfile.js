@@ -75,7 +75,33 @@ module.exports = function(grunt) {
                 nospawn: true
               }
             }
-        }
+        },
+        manifest: {
+            generate: {
+              options: {
+                basePath: 'src/main/webapp/user/',
+                cache: ['dist/app.js', 'dist/lib.js', 'dist/main.css'],
+                network: ['http://*', 'https://*'],
+                fallback: ['/ /offline.html'],
+                exclude: ['js/jquery.min.js'],
+                preferOnline: true,
+                verbose: true,
+                timestamp: true,
+                hash: true,
+                master: ['index.html']
+              },
+              src: [
+                'partials/*.html',
+                'images/*',
+                '../components/*.css',
+            	'../components/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css',
+            	'../components/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css',
+                '../components/angular-pull-to-refresh/dist/angular-pull-to-refresh.min.css',
+                '../components/angular-carousel/dist/angular-carousel.min.css'
+              ],
+              dest: 'src/main/webapp/user/dist/manifest.appcache'
+            }
+          }
 
     });
 
@@ -86,10 +112,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-bower-concat');
     grunt.loadNpmTasks('livereloadx');
+    grunt.loadNpmTasks('grunt-manifest');
     
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('default', ['concat', 'bower_concat', 'uglify', 'less']);
-    grunt.registerTask('server', ['concat', 'bower_concat', 'uglify', 'less', 'livereloadx', 'watch']);
+    grunt.registerTask('default', ['concat', 'bower_concat', 'uglify', 'less', 'manifest']);
+    grunt.registerTask('server', ['concat', 'bower_concat', 'uglify', 'less', 'livereloadx', 'watch', 'manifest']);
 
 };

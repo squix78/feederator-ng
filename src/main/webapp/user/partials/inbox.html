@@ -1,10 +1,14 @@
+<div ng-show="loading" class="app-content-loading ng-hide">
+	<i class="fa fa-spinner fa-spin loading-spinner"></i>
+</div>
+
 <div class="scrollable">
 	<div class="scrollable-content" id="scrollContainer">
 		<div class="list-group" pull-to-refresh="refreshItems()">
 			<a id="{{item.id}}" class="list-group-item media" ng-repeat="item in items" ng-click="showItem(item.id)">
 				<i class="fa fa-chevron-right pull-right"></i>
 				<div class="pull-left" ng-show="item.teaserImageSource">
-					<img class="feature-icon text-primary img-circle" src="/user/teaserImage?url={{item.teaserImageSource}}"/>
+					<img class="feature-icon text-primary img-circle shadow" src="/user/teaserImage?url={{item.teaserImageSource}}"/>
 				</div>
 				<div class="media-body">
 					<div class="list-item-title">{{item.title}}</div>

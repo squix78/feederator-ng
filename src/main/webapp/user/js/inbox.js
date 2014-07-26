@@ -13,7 +13,7 @@ function InboxController($scope, $rootScope, $timeout, $location, $timeout, item
 	
 	$rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
 			ItemService.restoreTopItem();
-		});
+	});
 
 	
 	$scope.showItem = function(itemId) {
@@ -28,13 +28,16 @@ function InboxController($scope, $rootScope, $timeout, $location, $timeout, item
 };
 
 InboxController.resolve = {
-    items: function(ItemService, Inbox) {
+    items: function($rootScope, ItemService, Inbox) {
     	var loader = {
     			listTitle: 'Inbox',
     			id: 'Inbox',
     			lastUpdate: null,
     			getItems: function() {
-    				return Inbox.query({});
+    				$rootScope.loading = true;
+    				return Inbox.query({}, function() {
+    					$rootScope.loading = true;
+    				});
     			}	
     		};
     	ItemService.setLoader(loader);

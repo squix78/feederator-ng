@@ -8,20 +8,6 @@
 						<small>{{$index + 1}}/{{items.length}} {{item.feedName}} || {{item.importedDate | date:'medium'}} </small>
 						<h4><strong><a href="{{item.link}}" target="_blank">{{item.title}}</a></strong></h4>
 						<div class="article-body" ng-bind-html="getContent(item)"></div>
-			            <div><b>Language:</b></div>
-			            <div ng-bind-html="item.article.language"></div>
-			            <BR/>
-			            <div><b>Title:</b></div>
-			            <div ng-bind-html="item.article.title"></div>
-			            <BR/>
-			            <div><b>Author:</b></div>
-			            <div ng-bind-html="author"></div>
-			            <BR/>
-			            <div><b>Article Author:</b></div>
-			            <div ng-bind-html="item.article.author"></div>
-			            <BR/>
-			            <div><b>Excerpt:</b></div>
-			            <div ng-bind-html="item.article.excerpt"></div>
 					</div>
 				</div>
 			</div>
